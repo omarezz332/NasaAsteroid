@@ -9,7 +9,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.udacity.asteroidradar.domain.PictureOfDay
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+import com.udacity.asteroidradar.domain.Asteroid
 
 
 @Dao
@@ -26,13 +28,13 @@ interface PictureOfDayDao {
 interface AsteroidDao {
 
     @Query(NasaDatabase.GET_ALL_NEAR_EARTH_OBJECTS)
-    fun getAllAsteroid(): LiveData<DatabaseAsteroid>
+    fun getAllAsteroid(): LiveData<List<DatabaseAsteroid>>
 
     @Query(NasaDatabase.GET_TODAY_OBJECTS)
-    fun getTodayAsteroid(): LiveData<DatabaseAsteroid>
+    fun getTodayAsteroid(today: String): LiveData<List<DatabaseAsteroid>>
 
     @Query(NasaDatabase.GET_WEEKLY_NEAR_EARTH_OBJECTS)
-    fun getWeeklyAsteroid(): LiveData<DatabaseAsteroid>
+    fun getWeeklyAsteroid(startDate: String, endDate: String): LiveData<List<DatabaseAsteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroid: DatabaseAsteroid)
@@ -74,3 +76,9 @@ fun getDatabase(context: Context): NasaDatabase {
     }
     return INSTANCE
 }
+
+
+
+
+
+

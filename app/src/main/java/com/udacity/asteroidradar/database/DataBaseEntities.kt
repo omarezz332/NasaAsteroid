@@ -2,21 +2,20 @@ package com.udacity.asteroidradar.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.domain.PictureOfDay
 import com.udacity.asteroidradar.domain.Asteroid
-import java.net.URL
 
 @Entity
 data class DatabasePictureOfDay constructor(
     @PrimaryKey
-    var url: String,
-    var name: String,
-    var mediaType: String,
-    var title: String,
+    val url : String,
+    val date: String,
+    val mediaType : String,
+    val title : String
 )
 
 fun DatabasePictureOfDay.asDomainModel(): PictureOfDay {
-    return PictureOfDay(url, mediaType, title)
+    return PictureOfDay(url, mediaType, title )
 }
 
 @Entity
@@ -28,17 +27,20 @@ data class DatabaseAsteroid constructor(
     val isPotentiallyHazardous: Boolean
 )
 
-fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
-    return map {
-        Asteroid(
-            id = it.id,
-            codename = it.codename,
-            closeApproachDate = it.closeApproachDate,
-            absoluteMagnitude = it.absoluteMagnitude,
-            estimatedDiameter = it.estimatedDiameter,
-            relativeVelocity = it.relativeVelocity,
-            distanceFromEarth = it.distanceFromEarth,
-            isPotentiallyHazardous = it.isPotentiallyHazardous,
-        )
+
+    fun List<DatabaseAsteroid>.asDomainModel(): List<Asteroid> {
+        return map {
+            Asteroid(
+                id = it.id,
+                codename = it.codename,
+                closeApproachDate = it.closeApproachDate,
+                absoluteMagnitude = it.absoluteMagnitude,
+                estimatedDiameter = it.estimatedDiameter,
+                relativeVelocity = it.relativeVelocity,
+                distanceFromEarth = it.distanceFromEarth,
+                isPotentiallyHazardous = it.isPotentiallyHazardous,
+            )
+        }
     }
-}
+
+
