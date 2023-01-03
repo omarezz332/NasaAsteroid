@@ -15,7 +15,7 @@ data class DatabasePictureOfDay constructor(
 )
 
 fun DatabasePictureOfDay.asDomainModel(): PictureOfDay {
-    return PictureOfDay(url, mediaType, title )
+    return PictureOfDay(url, mediaType, title,date )
 }
 
 @Entity
