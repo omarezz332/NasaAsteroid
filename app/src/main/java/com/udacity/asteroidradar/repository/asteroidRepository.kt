@@ -14,6 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.util.*
+import android.util.Log
+
 
 class AsteroidRepository(private val database: NasaDatabase) {
     val today = Utils.convertDateStringToFormattedString(
@@ -28,15 +30,15 @@ class AsteroidRepository(private val database: NasaDatabase) {
 
 val asteroidSaved :LiveData<List<Asteroid>> =
     Transformations.map(database.asteroidDao.getAllAsteroid()) {
-        it.asDomainModel()
+        it?.asDomainModel()
     }
     val asteroidToday :LiveData<List<Asteroid>> =
     Transformations.map(database.asteroidDao.getTodayAsteroid(today)) {
-        it.asDomainModel()
+        it?.asDomainModel()
     }
     val asteroidWeekly :LiveData<List<Asteroid>> =
     Transformations.map(database.asteroidDao.getWeeklyAsteroid(today,week)) {
-        it.asDomainModel()
+        it?.asDomainModel()
     }
 
 
@@ -45,6 +47,7 @@ val asteroidSaved :LiveData<List<Asteroid>> =
         withContext(Dispatchers.IO){
             try {
                 val asteroids = NasaApi.retrofitService.getAsteroids(Constants.api_key).await()
+                Log.i("AsteroidRepository",asteroids)
                 database.asteroidDao.insertAll(*parseAsteroidsJsonResult(JSONObject(asteroids)).asDatabaseModel())
             } catch (_: Exception) {
             }

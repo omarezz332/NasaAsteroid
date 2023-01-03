@@ -7,6 +7,7 @@ import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import com.udacity.asteroidradar.repository.PicOfTodayRepository
 import retrofit2.HttpException
+import timber.log.Timber
 
 
 class RefreshDataWorker(context: Context, parameters: WorkerParameters) :
@@ -18,6 +19,8 @@ class RefreshDataWorker(context: Context, parameters: WorkerParameters) :
         val database = getDatabase(context = applicationContext)
         val pictureOfDayRepository = PicOfTodayRepository(database)
         val asteroidsRepository = AsteroidRepository(database)
+        Timber.i(asteroidsRepository.asteroidSaved.value.toString())
+
         return try {
             pictureOfDayRepository.refreshPicOfToday()
             asteroidsRepository.refreshAsteroid()

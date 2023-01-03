@@ -11,6 +11,7 @@ import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import com.udacity.asteroidradar.repository.PicOfTodayRepository
 import kotlinx.coroutines.launch
+import android.util.Log
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -34,6 +35,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             else -> asteroidsRepository.asteroidSaved
         }
     }
+
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid?>()
     val navigateToSelectedProperty: MutableLiveData<Asteroid?>
         get() = _navigateToSelectedAsteroid

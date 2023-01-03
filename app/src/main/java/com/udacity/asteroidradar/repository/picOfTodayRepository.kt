@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.repository;
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.constants.Constants
@@ -10,13 +11,14 @@ import com.udacity.asteroidradar.database.asDomainModel
 import com.udacity.asteroidradar.domain.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 class PicOfTodayRepository(private val database: NasaDatabase) {
 
 
 val picOfToday :LiveData<PictureOfDay> =
     Transformations.map(database.pictureOfDayDao.getPictureOfDay()) {
-        it.asDomainModel()
+        it?.asDomainModel()
     }
 
 
@@ -26,6 +28,7 @@ val picOfToday :LiveData<PictureOfDay> =
         withContext(Dispatchers.IO){
             try {
                 val picOfToday = NasaApi.retrofitService.getPicOfDay(Constants.api_key).await()
+                Timber.e(picOfToday.url)
                 database.pictureOfDayDao.insertPictureOfDay(picOfToday.asDatabaseModel())
             } catch (_: Exception) {
             }
