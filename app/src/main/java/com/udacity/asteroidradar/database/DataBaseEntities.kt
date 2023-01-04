@@ -9,13 +9,15 @@ import com.udacity.asteroidradar.domain.Asteroid
 data class DatabasePictureOfDay constructor(
     @PrimaryKey
     val url : String,
-    val date: String,
+    val title : String,
+
     val mediaType : String,
-    val title : String
+    val date: String,
+
 )
 
 fun DatabasePictureOfDay.asDomainModel(): PictureOfDay {
-    return PictureOfDay(url, mediaType, title,date )
+    return PictureOfDay(url,title, mediaType ,date )
 }
 
 @Entity

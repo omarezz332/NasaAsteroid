@@ -6,15 +6,15 @@ import com.udacity.asteroidradar.database.DatabasePictureOfDay
 
 @JsonClass(generateAdapter = true)
 data class PictureOfDay(
-    val url : String,
-    val date : String,
-    @Json(name = "media_type") val mediaType : String,
-    val title : String
-)
+    val url: String, val title: String,
+
+    @Json(name = "media_type") val mediaType: String, val date: String,
+
+    )
 
 fun PictureOfDay.asDatabaseModel(): DatabasePictureOfDay {
     return DatabasePictureOfDay(
-        url,
-        date, mediaType, title
+        url, title,
+        mediaType, date,
     )
 }
